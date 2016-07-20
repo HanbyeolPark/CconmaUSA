@@ -10,11 +10,11 @@ android {
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "0.5.1"
     }
     signingConfigs {
         release {
-            storeFile file("/sign.jks")
+            storeFile file("/cconma.jks")
             storePassword "p931213"
             keyAlias "onestar"
             keyPassword "p931213"

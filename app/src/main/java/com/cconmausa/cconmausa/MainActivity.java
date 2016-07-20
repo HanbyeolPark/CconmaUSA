@@ -1,6 +1,8 @@
 package com.cconmausa.cconmausa;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -41,16 +44,24 @@ public class MainActivity extends AppCompatActivity
     CustomViewPager viewPager;
     Context context;
 
+    Bottom_tab1 frag1 = new Bottom_tab1();
+    Bottom_tab2 frag2 = new Bottom_tab2();
+    Bottom_tab3 frag3 = new Bottom_tab3();
+    Bottom_tab4 frag4 = new Bottom_tab4();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
+       // CLoading.showLoading(context);
+        viewPager = (CustomViewPager) findViewById(R.id.custom_viewpager);
 
-        viewPager = (CustomViewPager) findViewById(R.id.fragment_part_test);
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
-        //toolbar.setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setLogo(R.mipmap.cconma_logo);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -60,6 +71,35 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+        Toast.makeText(context, NetworkUtil.getConnectivityStatusString(context), Toast.LENGTH_LONG).show();
+        if(!NetworkUtil.possible){
+            alertDialogBuilder
+                    .setMessage("네트워크 장애로 인해 앱을 실행할 수 없습니다.")
+                    .setCancelable(false)
+                    .setPositiveButton("다시 시도",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(
+                                        DialogInterface dialog, int id) {
+                                    // 프로그램을 종료한다
+                                    dialog.cancel();
+                                    recreate();
+                                }
+                            })
+                    .setNegativeButton("종료",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(
+                                        DialogInterface dialog, int id) {
+                                    // 다이얼로그를 취소한다
+                                    dialog.cancel();
+                                }
+                            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            // 다이얼로그 보여주기
+            alertDialog.show();
+        }
 
         new ReadJSONFeed().execute("http://itaxi.handong.edu/init.php");
     }
@@ -81,6 +121,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         Intent intent;
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        FragmentTransaction fragTran = getSupportFragmentManager().beginTransaction();
 
         if (id == R.id.nav_home) {
             //intent = new Intent(this, MainActivity.class);
@@ -90,14 +131,26 @@ public class MainActivity extends AppCompatActivity
             intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+        } else if(id == R.id.nav_fragTest){
+            Bottom_tab3 test = new Bottom_tab3();
+
+            fragTran.setCustomAnimations(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+            fragTran.replace(R.id.main_layout, test);
+            fragTran.addToBackStack(null);
+            fragTran.commit();
+
+            fragTran.hide(frag1);
+            fragTran.hide(frag2);
+            fragTran.hide(frag3);
+            fragTran.hide(frag4);
         }
 
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private class ReadJSONFeed extends AsyncTask<String, String, String> {
         protected void onPreExecute() {}
-        Bottom_tab1 frag1;
         Vector<String> vector = new Vector<String>(3);
         Vector<String> vector2 = new Vector<String>(3);
         @Override
@@ -168,7 +221,6 @@ public class MainActivity extends AppCompatActivity
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            frag1 = new Bottom_tab1();
             Bundle bundle = new Bundle();
 
             String[] title = new String[vector.size()];
@@ -179,28 +231,25 @@ public class MainActivity extends AppCompatActivity
             bundle.putStringArray("title",title);
             bundle.putStringArray("url",url);
             frag1.setArguments(bundle);
-            Bottom_tab2 frag2 = new Bottom_tab2();
-            Bottom_tab3 frag3 = new Bottom_tab3();
-            Bottom_tab4 frag4 = new Bottom_tab4();
 
             switch (tabPosition) {
                 case 0 :
-                    ft.replace(R.id.fragment_part_test, frag1);
+                    ft.replace(R.id.tab_main, frag1);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.commit();
                     break;
                 case 1 :
-                    ft.replace(R.id.fragment_part_test, frag2);
+                    ft.replace(R.id.tab_main, frag2);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.commit();
                     break;
                 case 2 :
-                    ft.replace(R.id.fragment_part_test, frag3);
+                    ft.replace(R.id.tab_main, frag3);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.commit();
                     break;
                 case 3 :
-                    ft.replace(R.id.fragment_part_test, frag4);
+                    ft.replace(R.id.tab_main, frag4);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
                     ft.commit();
                     break;

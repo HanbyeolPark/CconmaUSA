@@ -8,6 +8,9 @@
         <item
             android:id="@+id/nav_login"
             android:title="LOGIN" />
+        <item
+            android:id="@+id/nav_fragTest"
+            android:title="Fragtest" />
     </group>
 
 </menu>
