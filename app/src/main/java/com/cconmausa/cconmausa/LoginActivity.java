@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class LoginActivity extends AppCompatActivity {
 
     private EditText editTextName;
@@ -94,10 +95,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-
                 name = editTextName.getText().toString();
                 pass = editTextPass.getText().toString();
-
 
                 new Thread() {
                     @Override
@@ -150,12 +149,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 // 다이얼로그 보여주기
                 alertDialog.show();
-
             }
         });
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onPause() {
         super.onPause();
@@ -164,7 +161,6 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onResume() {
         super.onResume();

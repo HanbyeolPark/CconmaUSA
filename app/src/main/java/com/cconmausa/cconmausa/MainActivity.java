@@ -134,15 +134,15 @@ public class MainActivity extends AppCompatActivity
         } else if(id == R.id.nav_fragTest){
             Bottom_tab3 test = new Bottom_tab3();
 
-            fragTran.setCustomAnimations(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+            fragTran.setCustomAnimations(R.anim.anim_slide_in_from_right, R.anim.anim_hold, R.anim.anim_hold, R.anim.anim_slide_out_to_right);
             fragTran.replace(R.id.main_layout, test);
             fragTran.addToBackStack(null);
             fragTran.commit();
 
-            fragTran.hide(frag1);
-            fragTran.hide(frag2);
-            fragTran.hide(frag3);
-            fragTran.hide(frag4);
+//            fragTran.hide(frag1);
+//            fragTran.hide(frag2);
+//            fragTran.hide(frag3);
+//            fragTran.hide(frag4);
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent;
 
         if (id == R.id.shopping_basket) {
-            intent = new Intent(this, Shopping_basket.class);
+            intent = new Intent(this, ShoppingCart.class);
             startActivity(intent);
             return true;
         }
