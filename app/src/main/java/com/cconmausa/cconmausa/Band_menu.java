@@ -3,12 +3,9 @@ package com.cconmausa.cconmausa;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -142,37 +139,37 @@ public class Band_menu extends Fragment {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             //activity로 띄우기
-//            Intent intent1 = new Intent(getActivity(), PopUpWebview.class);
-//            intent1.putExtra("url",url);
-//            startActivity(intent1);
-//            getActivity().overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
-//            return true;
-
-            Log.d("TEST", "first part");
-            //fragment로 띄우기
-            PopUpFragment newView = new PopUpFragment();
-            if (Uri.parse(url).getHost().equals(curURL)) {
-                Log.d("TEST", "in if stmt");
-                curURL = url;
-                return false;
-            }
-            bundleForNewView.putString("url", url);
-            newView.setArguments(bundleForNewView);
-            FragmentManager fragManager = getActivity().getSupportFragmentManager();
-            FragmentTransaction fragTran = fragManager.beginTransaction();
-
-            fragTran.setCustomAnimations(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
-            fragTran.replace(R.id.main_layout, newView);
-            Log.d("TEST", "after replace");
-            fragTran.addToBackStack(null);
-            fragTran.commit();
-            Log.d("TEST", "after commit");
-           // fragManager.popBackStack();
-            fragManager.executePendingTransactions();
-
-            view.loadUrl(curURL);
-            Log.d("TEST", "curURL : " + curURL);
+            Intent intent1 = new Intent(getActivity(), PopUpWebview.class);
+            intent1.putExtra("url",url);
+            startActivity(intent1);
+            getActivity().overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
             return true;
+
+//            Log.d("TEST", "first part");
+//            //fragment로 띄우기
+//            PopUpFragment newView = new PopUpFragment();
+//            if (Uri.parse(url).getHost().equals(curURL)) {
+//                Log.d("TEST", "in if stmt");
+//                curURL = url;
+//                return false;
+//            }
+//            bundleForNewView.putString("url", url);
+//            newView.setArguments(bundleForNewView);
+//            FragmentManager fragManager = getActivity().getSupportFragmentManager();
+//            FragmentTransaction fragTran = fragManager.beginTransaction();
+//
+//            fragTran.setCustomAnimations(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+//            fragTran.replace(R.id.main_layout, newView);
+//            Log.d("TEST", "after replace");
+//            fragTran.addToBackStack(null);
+//            fragTran.commit();
+//            Log.d("TEST", "after commit");
+//           // fragManager.popBackStack();
+//            fragManager.executePendingTransactions();
+//
+//            view.loadUrl(curURL);
+//            Log.d("TEST", "curURL : " + curURL);
+//            return true;
         }
 
         public void onPageStarted(WebView view, String url,
@@ -234,7 +231,6 @@ public class Band_menu extends Fragment {
                 case ERROR_UNSUPPORTED_SCHEME:
                     Toast.makeText(myApp,"ERROR_UNSUPPORTED_SCHEME", Toast.LENGTH_LONG).show();
                     break;
-
             }
             mWebView.stopLoading();
         }

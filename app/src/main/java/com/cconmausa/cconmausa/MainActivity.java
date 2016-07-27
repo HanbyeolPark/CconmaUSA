@@ -155,26 +155,8 @@ public class MainActivity extends AppCompatActivity
         Vector<String> vector2 = new Vector<String>(3);
         @Override
         protected String doInBackground(String... urls) {
-            HttpClient httpclient = new DefaultHttpClient();
-            StringBuilder builder = new StringBuilder();
-            HttpPost httppost = new HttpPost(urls[0]);
-            try {
-                HttpResponse response = httpclient.execute(httppost);
-                StatusLine statusLine = response.getStatusLine();
-                int statusCode = statusLine.getStatusCode();
-                if (statusCode == 200) {
-                    HttpEntity entity = response.getEntity();
-                    InputStream content = entity.getContent();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-                    String line;
-                    while ((line = reader.readLine()) != null) {
-                        builder.append(line);
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return builder.toString();
+            HttpConnection httpConnection = new HttpConnection();
+            return httpConnection.getContent(urls[0]);
         }
 
         protected void onPostExecute(String result) {
@@ -202,61 +184,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-        private void TabLayoutBottomEvent() {
-            tabLayout_bottom.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    setCurrentTabFragment(tab.getPosition());
-                }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) { }
-
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) { }
-            });
-        }
-
-        private void setCurrentTabFragment(int tabPosition) {
-
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            Bundle bundle = new Bundle();
-
-            String[] title = new String[vector.size()];
-            title = (String[])vector.toArray(title);
-            String[] url = new String[vector2.size()];
-            url = (String[])vector2.toArray(url);
-
-            bundle.putStringArray("title",title);
-            bundle.putStringArray("url",url);
-            frag1.setArguments(bundle);
-
-            switch (tabPosition) {
-                case 0 :
-                    ft.replace(R.id.tab_main, frag1);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    ft.commit();
-                    break;
-                case 1 :
-                    ft.replace(R.id.tab_main, frag2);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    ft.commit();
-                    break;
-                case 2 :
-                    ft.replace(R.id.tab_main, frag3);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    ft.commit();
-                    break;
-                case 3 :
-                    ft.replace(R.id.tab_main, frag4);
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                    ft.commit();
-                    break;
-                default:
-                    break;
-            }
-        }
         private void setupViewPager(ViewPager viewPager) {
             //get information about tabs from server
             //make Fragments as number of categories
