@@ -1,5 +1,6 @@
 package com.cconmausa.cconmausa;
 
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,6 +30,9 @@ public class PopUpFragment extends Fragment {
             mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
             mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
+            mWebView.getSettings().setLoadWithOverviewMode(true);//웹뷰에 딱맞게 페이지 크기 조절
+            mWebView.getSettings().setUseWideViewPort(true);//웹뷰에 딱맞게 페이지 크기 조절
+
             final Bundle extra = getArguments();
             final String curURL = extra.getString("url");
             mWebView.loadUrl(curURL);
@@ -56,6 +60,11 @@ public class PopUpFragment extends Fragment {
                     return true;
                 }
             });
+
         return view;
+    }
+
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }

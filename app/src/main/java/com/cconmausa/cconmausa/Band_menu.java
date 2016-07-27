@@ -136,32 +136,43 @@ public class Band_menu extends Fragment {
     }
 
     public class MyWebClient extends WebViewClient{
+
+
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Intent intent1 = new Intent(getActivity(), PopUpWebview.class);
-            intent1.putExtra("url",url);
-            startActivity(intent1);
-            getActivity().overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
-            return true;
-
-//            if (Uri.parse(url).getHost().equals(curURL)) {
-//                return false;
-//            }
-//            bundleForNewView.putString("url", url);
-//            PopUpFragment newView = new PopUpFragment();
-//            newView.setArguments(bundleForNewView);
-//            FragmentManager fragManager = getActivity().getSupportFragmentManager();
-//            FragmentTransaction fragTran = fragManager.beginTransaction();
-//
-//            fragTran.setCustomAnimations(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
-//            fragTran.replace(R.id.main_layout, newView);
-//            fragTran.addToBackStack(null);
-//            fragTran.commit();
-//           // fragManager.popBackStack();
-//            fragManager.executePendingTransactions();
-//
-//            view.loadUrl(curURL);
+            //activity로 띄우기
+//            Intent intent1 = new Intent(getActivity(), PopUpWebview.class);
+//            intent1.putExtra("url",url);
+//            startActivity(intent1);
+//            getActivity().overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
 //            return true;
+
+            Log.d("TEST", "first part");
+            //fragment로 띄우기
+            PopUpFragment newView = new PopUpFragment();
+            if (Uri.parse(url).getHost().equals(curURL)) {
+                Log.d("TEST", "in if stmt");
+                curURL = url;
+                return false;
+            }
+            bundleForNewView.putString("url", url);
+            newView.setArguments(bundleForNewView);
+            FragmentManager fragManager = getActivity().getSupportFragmentManager();
+            FragmentTransaction fragTran = fragManager.beginTransaction();
+
+            fragTran.setCustomAnimations(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+            fragTran.replace(R.id.main_layout, newView);
+            Log.d("TEST", "after replace");
+            fragTran.addToBackStack(null);
+            fragTran.commit();
+            Log.d("TEST", "after commit");
+           // fragManager.popBackStack();
+            fragManager.executePendingTransactions();
+
+            view.loadUrl(curURL);
+            Log.d("TEST", "curURL : " + curURL);
+            return true;
         }
 
         public void onPageStarted(WebView view, String url,
