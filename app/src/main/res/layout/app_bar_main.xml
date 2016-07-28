@@ -24,15 +24,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
-
                 <ImageView
-                    android:src="@mipmap/cconma_logo"
+                    android:src="@drawable/logo"
                     android:layout_gravity="center"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:scaleX="2.0"
-                    android:scaleY="2.0" />
-
+                    />
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.AppBarLayout>
 

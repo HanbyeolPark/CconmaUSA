@@ -1,5 +1,6 @@
 package com.cconmausa.cconmausa;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -26,7 +27,7 @@ public class ShoppingCart extends AppCompatActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if (Uri.parse(url).getHost().equals(curURL)) {
+                /*if (Uri.parse(url).getHost().equals(curURL)) {
                     return false;
                 }
                 PopUpFragment newView = new PopUpFragment();
@@ -44,11 +45,21 @@ public class ShoppingCart extends AppCompatActivity {
                 fragManag.executePendingTransactions();
 
                 view.loadUrl(curURL);
+                return true;*/
+
+                Intent intent1 = new Intent(ShoppingCart.this, PopUpWebview.class);
+                intent1.putExtra("url",url);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
                 return true;
             }
         });
-
         mWebView.loadUrl(curURL);
+    }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_hold, R.anim.anim_slide_out_to_right);
     }
 }

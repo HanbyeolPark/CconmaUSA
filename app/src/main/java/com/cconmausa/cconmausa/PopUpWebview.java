@@ -178,4 +178,10 @@ public class PopUpWebview extends AppCompatActivity {
         mWebView.saveState(outState);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.anim_hold, R.anim.anim_slide_out_to_right);
+    }
+
 }
