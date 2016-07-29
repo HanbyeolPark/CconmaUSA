@@ -138,12 +138,18 @@ public class Band_menu extends Fragment {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            //activity로 띄우기
-            Intent intent1 = new Intent(getActivity(), PopUpWebview.class);
-            intent1.putExtra("url",url);
-            startActivity(intent1);
-            getActivity().overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
-            return true;
+
+            if(curURL.equalsIgnoreCase(url)||url.equalsIgnoreCase("https://cconmausa.myshopify.com/")){
+                return super.shouldOverrideUrlLoading(view,url);
+            }else{
+                //activity로 띄우기
+                Intent intent1 = new Intent(getActivity(), PopUpWebview.class);
+                intent1.putExtra("url", url);
+                startActivity(intent1);
+                getActivity().overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+                return true;
+            }
+
 
 //            Log.d("TEST", "first part");
 //            //fragment로 띄우기

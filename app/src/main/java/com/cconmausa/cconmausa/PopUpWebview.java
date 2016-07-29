@@ -18,6 +18,7 @@ import android.widget.Toast;
 public class PopUpWebview extends AppCompatActivity {
 
     WebView mWebView;
+    String curURL="";
     private ProgressBar progress;
     private WebSettings mWebSettings;
 
@@ -89,13 +90,30 @@ public class PopUpWebview extends AppCompatActivity {
         mWebView.setWebViewClient(new WebViewClient() {
                                       @Override
                                       public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                          Log.d("URL_CATCH", url);
-                                          Intent intent1 = new Intent(myApp, PopUpWebview.class);
-                                          intent1.putExtra("url", url);
-                                          startActivity(intent1);
-                                          overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
-                                          Log.d("되나", "되라");
-                                          return true;
+                                          if(curURL.startsWith("https://checkout.shopify.com/")){
+                                              if(url.startsWith("https://checkout.shopify.com/")){
+                                                  return super.shouldOverrideUrlLoading(view,url);
+                                              }
+                                                  else{
+                                                  Intent intent1 = new Intent(myApp, PopUpWebview.class);
+                                                  intent1.putExtra("url", url);
+                                                  startActivity(intent1);
+                                                  overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+                                                  return true;
+                                              }
+
+                                          }
+                                          else if(curURL.equalsIgnoreCase(url)||url.equalsIgnoreCase("https://cconmausa.myshopify.com/")){
+                                              return super.shouldOverrideUrlLoading(view,url);
+                                          }else{
+                                              //activity로 띄우기
+                                              Intent intent1 = new Intent(myApp, PopUpWebview.class);
+                                              intent1.putExtra("url", url);
+                                              startActivity(intent1);
+                                              overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+                                              return true;
+                                          }
+
                                       }
 
                                       public void onPageStarted(WebView view, String url,
@@ -169,8 +187,8 @@ public class PopUpWebview extends AppCompatActivity {
         );
 
         Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
-        mWebView.loadUrl(url);
+        curURL = intent.getStringExtra("url");
+        mWebView.loadUrl(curURL);
     }
 
     public void onSaveInstanceState(Bundle outState){
