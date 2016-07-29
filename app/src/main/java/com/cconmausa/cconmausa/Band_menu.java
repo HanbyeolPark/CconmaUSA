@@ -51,11 +51,9 @@ public class Band_menu extends Fragment {
         mWebSettings.setSaveFormData(false);
         mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         // mWebSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-        mWebView.setWebViewClient(new MyWebClient());
-
+        mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mWebView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -73,8 +71,6 @@ public class Band_menu extends Fragment {
                 return false;
             }
         });
-
-        mWebView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mWebView.setWebViewClient(new MyWebClient());
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -133,8 +129,6 @@ public class Band_menu extends Fragment {
     }
 
     public class MyWebClient extends WebViewClient{
-
-
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {

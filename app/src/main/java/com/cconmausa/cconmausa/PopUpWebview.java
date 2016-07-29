@@ -3,6 +3,7 @@ package com.cconmausa.cconmausa;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +21,7 @@ public class PopUpWebview extends AppCompatActivity {
     WebView mWebView;
     private ProgressBar progress;
     private WebSettings mWebSettings;
+    String cururl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class PopUpWebview extends AppCompatActivity {
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         // mWebSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         final Context myApp = this;
+
+        Intent intent = getIntent();
+        cururl = intent.getStringExtra("url");
 
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -90,6 +95,13 @@ public class PopUpWebview extends AppCompatActivity {
                                       @Override
                                       public boolean shouldOverrideUrlLoading(WebView view, String url) {
                                           Log.d("URL_CATCH", url);
+
+
+                                          if (Uri.parse(url).getHost().equals(cururl)) {
+                                              Log.d("TEST", "in if stmt");
+                                              return false;
+                                          }
+
                                           Intent intent1 = new Intent(myApp, PopUpWebview.class);
                                           intent1.putExtra("url", url);
                                           startActivity(intent1);
@@ -168,9 +180,7 @@ public class PopUpWebview extends AppCompatActivity {
                                   }
         );
 
-        Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
-        mWebView.loadUrl(url);
+        mWebView.loadUrl(cururl);
     }
 
     public void onSaveInstanceState(Bundle outState){
@@ -179,9 +189,18 @@ public class PopUpWebview extends AppCompatActivity {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        if (this.isFinishing()) {
+            mWebView.destroy();
+        }
+    }
+
+    @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.anim_hold, R.anim.anim_slide_out_to_right);
+        mWebView.destroy();
     }
 
 }

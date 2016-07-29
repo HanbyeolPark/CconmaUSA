@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity
             alertDialogBuilder
                     .setMessage("네트워크 장애로 인해 앱을 실행할 수 없습니다.")
                     .setCancelable(false)
-                    .setPositiveButton("다시 시도",
+                    .setPositiveButton("다시시도",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(
                                         DialogInterface dialog, int id) {
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity
                                         DialogInterface dialog, int id) {
                                     // 다이얼로그를 취소한다
                                     dialog.cancel();
+                                    finish();
                                 }
                             });
             AlertDialog alertDialog = alertDialogBuilder.create();
@@ -161,19 +162,43 @@ public class MainActivity extends AppCompatActivity
 
         protected void onPostExecute(String result) {
             String stateInfo="";
+            Bundle bundle = new Bundle();
 
             try{
                 JSONObject object = new JSONObject(result);
                 JSONArray countriesArray = new JSONArray(object.getString("band_menu"));
                 tabLayout_bottom = (TabLayout) findViewById(R.id.main_tabs_bottom);
 
-                for (int i =0 ; i<countriesArray.length();i++) {
+                Vector<Band_menu> bandmenuvector = new Vector<Band_menu>(5);
+                adapter = new Adapter(getSupportFragmentManager());
+
+                for (int i =0; i<countriesArray.length();i++) {
                     JSONObject jObject = countriesArray.getJSONObject(i);
-                    stateInfo+="Title: "+jObject.getString("title")+"\n";
-                    stateInfo+="Url: "+jObject.getString("url")+"\n";
+                    stateInfo += "Title: "+jObject.getString("title")+"\n";
+                    stateInfo += "Url: "+jObject.getString("url")+"\n";
+
                     vector.addElement(jObject.getString("title"));
                     vector2.addElement(jObject.getString("url"));
+
+//                    JSONObject jObject = countriesArray.getJSONObject(i);
+//
+//                    vector.addElement(jObject.getString("title"));
+//                    vector2.addElement(jObject.getString("url"));
+//
+//                    String[] title = new String[vector.size()];
+//                    title = (String[]) vector.toArray(title);
+//                    String[] url = new String[vector2.size()];
+//                    url = (String[])vector2.toArray(url);
+//
+//                    bundle.putStringArray("title", title);
+//                    bundle.putStringArray("url", url);
+//
+//                    bandmenuvector.addElement(new Band_menu());
+//                    bandmenuvector.get(i).setArguments(bundle);
+//                    adapter.addFragment(bandmenuvector.get(i), jObject.getString("title"));
                 }
+
+                viewPager.setAdapter(adapter);
                 setupViewPager(viewPager);
                 viewPager.setOffscreenPageLimit(6);
                 tabLayout_bottom.setupWithViewPager(viewPager);
@@ -182,7 +207,6 @@ public class MainActivity extends AppCompatActivity
             catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
 
         private void setupViewPager(ViewPager viewPager) {
@@ -226,7 +250,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.shopping_basket) {
             intent = new Intent(this, ShoppingCart.class);
+            intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
+            overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
             return true;
         }
         return super.onOptionsItemSelected(item);
