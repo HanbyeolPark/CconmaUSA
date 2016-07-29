@@ -3,7 +3,6 @@ package com.cconmausa.cconmausa;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,9 +18,9 @@ import android.widget.Toast;
 public class PopUpWebview extends AppCompatActivity {
 
     WebView mWebView;
+    String curURL="";
     private ProgressBar progress;
     private WebSettings mWebSettings;
-    String cururl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +43,6 @@ public class PopUpWebview extends AppCompatActivity {
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         // mWebSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         final Context myApp = this;
-
-        Intent intent = getIntent();
-        cururl = intent.getStringExtra("url");
 
         mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
@@ -94,20 +90,30 @@ public class PopUpWebview extends AppCompatActivity {
         mWebView.setWebViewClient(new WebViewClient() {
                                       @Override
                                       public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                                          Log.d("URL_CATCH", url);
+                                          if(curURL.startsWith("https://checkout.shopify.com/")){
+                                              if(url.startsWith("https://checkout.shopify.com/")){
+                                                  return super.shouldOverrideUrlLoading(view,url);
+                                              }
+                                                  else{
+                                                  Intent intent1 = new Intent(myApp, PopUpWebview.class);
+                                                  intent1.putExtra("url", url);
+                                                  startActivity(intent1);
+                                                  overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+                                                  return true;
+                                              }
 
-
-                                          if (Uri.parse(url).getHost().equals(cururl)) {
-                                              Log.d("TEST", "in if stmt");
-                                              return false;
+                                          }
+                                          else if(curURL.equalsIgnoreCase(url)||url.equalsIgnoreCase("https://cconmausa.myshopify.com/")){
+                                              return super.shouldOverrideUrlLoading(view,url);
+                                          }else{
+                                              //activity로 띄우기
+                                              Intent intent1 = new Intent(myApp, PopUpWebview.class);
+                                              intent1.putExtra("url", url);
+                                              startActivity(intent1);
+                                              overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+                                              return true;
                                           }
 
-                                          Intent intent1 = new Intent(myApp, PopUpWebview.class);
-                                          intent1.putExtra("url", url);
-                                          startActivity(intent1);
-                                          overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
-                                          Log.d("되나", "되라");
-                                          return true;
                                       }
 
                                       public void onPageStarted(WebView view, String url,
@@ -180,27 +186,14 @@ public class PopUpWebview extends AppCompatActivity {
                                   }
         );
 
-        mWebView.loadUrl(cururl);
+        Intent intent = getIntent();
+        curURL = intent.getStringExtra("url");
+        mWebView.loadUrl(curURL);
     }
 
     public void onSaveInstanceState(Bundle outState){
         super.onSaveInstanceState(outState);
         mWebView.saveState(outState);
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (this.isFinishing()) {
-            mWebView.destroy();
-        }
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        overridePendingTransition(R.anim.anim_hold, R.anim.anim_slide_out_to_right);
-        mWebView.destroy();
     }
 
 }
