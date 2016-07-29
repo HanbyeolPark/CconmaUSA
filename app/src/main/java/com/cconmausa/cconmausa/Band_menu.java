@@ -132,11 +132,13 @@ public class Band_menu extends Fragment {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
+            Log.d("현재URL", curURL);
+            Log.d("로드될URL",url);
             if(curURL.equalsIgnoreCase(url)||url.equalsIgnoreCase("https://cconmausa.myshopify.com/")){
                 return super.shouldOverrideUrlLoading(view,url);
             }else{
                 //activity로 띄우기
+                Log.d("새창", url);
                 Intent intent1 = new Intent(getActivity(), PopUpWebview.class);
                 intent1.putExtra("url", url);
                 startActivity(intent1);

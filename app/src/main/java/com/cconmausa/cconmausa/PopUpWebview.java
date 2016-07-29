@@ -90,6 +90,8 @@ public class PopUpWebview extends AppCompatActivity {
         mWebView.setWebViewClient(new WebViewClient() {
                                       @Override
                                       public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                          Log.d("현재URL", curURL);
+                                          Log.d("로드될URL",url);
                                           if(curURL.startsWith("https://checkout.shopify.com/")){
                                               if(url.startsWith("https://checkout.shopify.com/")){
                                                   return super.shouldOverrideUrlLoading(view,url);
@@ -103,12 +105,18 @@ public class PopUpWebview extends AppCompatActivity {
                                               }
 
                                           }
-                                          else if(curURL.equalsIgnoreCase(url)||url.equalsIgnoreCase("https://cconmausa.myshopify.com/")){
-                                              return super.shouldOverrideUrlLoading(view,url);
-                                          }else{
+                                          else if(curURL.equalsIgnoreCase(url)||url.equalsIgnoreCase("https://cconmausa.myshopify.com/")) {
+                                              return super.shouldOverrideUrlLoading(view, url);
+                                          }else if(!curURL.contains("m/store")&&url.contains("m/store")){
+                                              return super.shouldOverrideUrlLoading(view, url);
+                                          }
+                                          else{
                                               //activity로 띄우기
+
+
                                               Intent intent1 = new Intent(myApp, PopUpWebview.class);
                                               intent1.putExtra("url", url);
+                                              Log.d("새창", url);
                                               startActivity(intent1);
                                               overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
                                               return true;
