@@ -236,12 +236,5 @@ public class Band_menu extends Fragment {
             }
             mWebView.stopLoading();
         }
-
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        mWebView.destroy();
     }
 }

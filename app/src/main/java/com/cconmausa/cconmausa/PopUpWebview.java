@@ -34,8 +34,8 @@ public class PopUpWebview extends AppCompatActivity {
         progress = (ProgressBar) findViewById(R.id.web_progress);
         String userAgent2 = mWebSettings.getUserAgentString();
         Log.d("userAgent2", userAgent2);
-        mWebSettings.setBuiltInZoomControls(true);
-        mWebSettings.setSupportZoom(true);
+        //mWebSettings.setBuiltInZoomControls(true);
+        //mWebSettings.setSupportZoom(true);
         mWebSettings.setUseWideViewPort(true);
         mWebSettings.setLoadWithOverviewMode(true);
         mWebSettings.setSaveFormData(false);
@@ -205,14 +205,9 @@ public class PopUpWebview extends AppCompatActivity {
     }
 
     @Override
-    public void onStop(){
-        super.onStop();
-        mWebView.destroy();
-    }
-
-    @Override
     public void finish() {
         super.finish();
+        mWebView.destroy();
         overridePendingTransition(R.anim.anim_hold, R.anim.anim_slide_out_to_right);
     }
 
