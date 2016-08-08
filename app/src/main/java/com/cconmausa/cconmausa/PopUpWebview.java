@@ -105,7 +105,7 @@ public class PopUpWebview extends AppCompatActivity {
                                               }
 
                                           }
-                                          else if(curURL.equalsIgnoreCase(url)||url.equalsIgnoreCase("https://cconmausa.myshopify.com/")) {
+                                          else if(curURL.replace("/","").equalsIgnoreCase(url.replace("/",""))||curURL.equalsIgnoreCase(url)||url.equalsIgnoreCase("https://cconmausa.myshopify.com/")) {
                                               return super.shouldOverrideUrlLoading(view, url);
                                           }else if(!curURL.contains("m/store")&&url.contains("m/store")){
                                               return super.shouldOverrideUrlLoading(view, url);

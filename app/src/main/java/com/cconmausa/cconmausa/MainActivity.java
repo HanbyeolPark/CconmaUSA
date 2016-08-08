@@ -7,36 +7,28 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+         {
 
     DrawerLayout drawer;
     TabLayout tabLayout_bottom;
@@ -68,9 +60,29 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        WebView mWebView;
+        WebSettings mWebSettings;
+        ProgressBar progress;
+        mWebView = (WebView) findViewById(R.id.popup_webview);
+        mWebSettings = mWebView.getSettings();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        progress = (ProgressBar) findViewById(R.id.web_progress);
+        String userAgent2 = mWebSettings.getUserAgentString();
+        Log.d("userAgent2", userAgent2);
+        //mWebSettings.setBuiltInZoomControls(true);
+        //mWebSettings.setSupportZoom(true);
+        mWebSettings.setUseWideViewPort(true);
+        mWebSettings.setLoadWithOverviewMode(true);
+        mWebSettings.setSaveFormData(false);
+        mWebSettings.setJavaScriptEnabled(true);
+        mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        // mWebSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
+
+        mWebView.loadUrl("http://m.naver.com");
+        final Context myApp = this;
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navigationView.setNavigationItemSelectedListener(this);
 
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
@@ -116,7 +128,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
-    @Override
+   /* @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -148,7 +160,7 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
+    }*/
 
     private class ReadJSONFeed extends AsyncTask<String, String, String> {
         protected void onPreExecute() {}

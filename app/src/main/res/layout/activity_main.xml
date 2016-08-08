@@ -19,6 +19,11 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:menu="@menu/main_drawer" />
+       >
+        <include
+            layout="@layout/activity_popup_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>
