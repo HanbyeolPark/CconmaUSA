@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity
          {
 
     DrawerLayout drawer;
-    TabLayout tabLayout_bottom;
+    TabLayout tabLayout;
     Adapter adapter;
-    CustomViewPager viewPager;
+    ViewPager viewPager;
     Context context;
 
     Bottom_tab1 frag1 = new Bottom_tab1();
@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         context = this;
        // CLoading.showLoading(context);
-        viewPager = (CustomViewPager) findViewById(R.id.custom_viewpager);
+        viewPager = (ViewPager) findViewById(R.id.fragment_bottom_tab1_viewpager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity
             try{
                 JSONObject object = new JSONObject(result);
                 JSONArray countriesArray = new JSONArray(object.getString("band_menu"));
-                tabLayout_bottom = (TabLayout) findViewById(R.id.main_tabs_bottom);
+                tabLayout = (TabLayout) findViewById(R.id.fragment_bottom_tab1_tabs);
 
                 Vector<Band_menu> bandmenuvector = new Vector<Band_menu>(5);
                 adapter = new Adapter(getSupportFragmentManager());
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity
                 viewPager.setAdapter(adapter);
                 setupViewPager(viewPager);
                 viewPager.setOffscreenPageLimit(6);
-                tabLayout_bottom.setupWithViewPager(viewPager);
+                tabLayout.setupWithViewPager(viewPager);
 
             }
             catch (JSONException e) {
@@ -225,26 +225,22 @@ public class MainActivity extends AppCompatActivity
             //get information about tabs from server
             //make Fragments as number of categories
 
-            adapter = new Adapter(getSupportFragmentManager());
-            frag1 = new Bottom_tab1();
-            Bundle bundle = new Bundle();
+
+
+            Vector<Band_menu> band_menus = new Vector<Band_menu>(10);
 
             String[] title = new String[vector.size()];
             title = (String[])vector.toArray(title);
             String[] url = new String[vector2.size()];
             url = (String[])vector2.toArray(url);
 
-            bundle.putStringArray("title",title);
-            bundle.putStringArray("url",url);
-            frag1.setArguments(bundle);
-            Bottom_tab2 frag2 = new Bottom_tab2();
-            Bottom_tab3 frag3 = new Bottom_tab3();
-            Bottom_tab4 frag4 = new Bottom_tab4();
-            adapter.addFragment(frag1, "1");
-            adapter.addFragment(frag2, "2");
-            adapter.addFragment(frag3, "3");
-            adapter.addFragment(frag4, "4");
-
+            for(int i=0; i<url.length;i++){
+                Bundle bundle = new Bundle();
+                bundle.putString("url", url[i]);
+                band_menus.addElement(new Band_menu());
+                band_menus.get(i).setArguments(bundle);
+                adapter.addFragment(band_menus.get(i), title[i]);
+            }
             viewPager.setAdapter(adapter);
         }
     }
