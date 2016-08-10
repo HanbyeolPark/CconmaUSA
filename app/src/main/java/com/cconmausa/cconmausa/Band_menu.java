@@ -1,18 +1,15 @@
 package com.cconmausa.cconmausa;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -25,7 +22,7 @@ public class Band_menu extends Fragment {
     private WebSettings mWebSettings;
     Bundle bundleForNewView = new Bundle();
     String curURL="";
-    final Context myApp = this.getContext();
+    final Context myApp = this.getActivity();
     private ProgressBar progress;
 
     public Band_menu() {}
@@ -72,48 +69,7 @@ public class Band_menu extends Fragment {
             }
         });
         mWebView.setWebViewClient(new MyWebClient());
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public boolean onJsAlert(WebView view, String url, String message, final android.webkit.JsResult result) {
-                new AlertDialog.Builder(myApp)
-                        .setTitle("Alert title")
-                        .setMessage(message)
-                        .setPositiveButton(android.R.string.ok,
-                                new AlertDialog.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        result.confirm();
-                                    }
-                                })
-                        .setCancelable(false)
-                        .create()
-                        .show();
-                return true;
-            }
-
-            public boolean onJsConfirm(WebView view, String url,
-                                       String message, final android.webkit.JsResult result) {
-                new AlertDialog.Builder(myApp)
-                        .setTitle("Concierge")
-                        .setMessage(message)
-                        .setPositiveButton(android.R.string.ok,
-                                new AlertDialog.OnClickListener() {
-                                    public void onClick(
-                                            DialogInterface dialog,
-                                            int which) {
-                                        result.confirm();
-                                    }
-                                })
-                        .setNegativeButton(android.R.string.cancel,
-                                new AlertDialog.OnClickListener() {
-                                    public void onClick(
-                                            DialogInterface dialog,
-                                            int which) {
-                                        result.cancel();
-                                    }
-                                }).setCancelable(false).create().show();
-                return true;
-            }
-        });
+        mWebView.setWebChromeClient(new CustomWebChromeClient(getActivity()));
 
         Bundle extra = getArguments();
         curURL = extra.getString("url");
