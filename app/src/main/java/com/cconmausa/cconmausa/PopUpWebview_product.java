@@ -6,13 +6,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class PopUpWebview extends AppCompatActivity {
+/**
+ * Created by ymg on 2016-08-12.
+ */
+
+public class PopUpWebview_product extends AppCompatActivity {
 
     WebView mWebView;
     String curURL="";
@@ -21,6 +26,10 @@ public class PopUpWebview extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup_web_view);
@@ -30,6 +39,7 @@ public class PopUpWebview extends AppCompatActivity {
 
         progress = (ProgressBar) findViewById(R.id.web_progress);
         String userAgent2 = mWebSettings.getUserAgentString();
+        Log.d("popupwebview2", "popupwebview2");
         Log.d("userAgent2", userAgent2);
         //mWebSettings.setBuiltInZoomControls(true);
         //mWebSettings.setSupportZoom(true);
@@ -52,8 +62,7 @@ public class PopUpWebview extends AppCompatActivity {
                                               if(url.startsWith("https://checkout.shopify.com/")){
                                                   return super.shouldOverrideUrlLoading(view,url);
                                               }
-                                                  else{
-
+                                              else{
                                                   Intent intent1;
                                                   if(url.contains("product/?pcode")) {
                                                       intent1 = new Intent(myApp, PopUpWebview_product.class);
