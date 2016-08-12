@@ -95,7 +95,12 @@ public class Band_menu extends Fragment {
             }else{
                 //activity로 띄우기
                 Log.d("새창", url);
-                Intent intent1 = new Intent(getActivity(), PopUpWebview.class);
+                Intent intent1;
+                if(url.contains("product/?pcode")) {
+                     intent1 = new Intent(getActivity(), PopUpWebview_product.class);
+                }else{
+                     intent1 = new Intent(getActivity(), PopUpWebview.class);
+                }
                 intent1.putExtra("url", url);
                 startActivity(intent1);
                 getActivity().overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
