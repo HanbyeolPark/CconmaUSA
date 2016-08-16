@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -25,10 +28,25 @@ public class PopUpWebview extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup_web_view);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.popup_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                mWebView.destroy();
+                overridePendingTransition(R.anim.anim_hold, R.anim.anim_slide_out_to_right);
+            }
+        });
+
         mWebView = (WebView) findViewById(R.id.popup_webview);
         mWebSettings = mWebView.getSettings();
 
-        progress = (ProgressBar) findViewById(R.id.web_progress);
+        progress = (ProgressBar) findViewById(R.id.popup_progress);
         String userAgent2 = mWebSettings.getUserAgentString();
         Log.d("userAgent2", userAgent2);
         //mWebSettings.setBuiltInZoomControls(true);
@@ -48,11 +66,17 @@ public class PopUpWebview extends AppCompatActivity {
                                       public boolean shouldOverrideUrlLoading(WebView view, String url) {
                                           Log.d("현재URL", curURL);
                                           Log.d("로드될URL",url);
+
+                                          if(url.equalsIgnoreCase(curURL)){
+                                              //return super.shouldOverrideUrlLoading(view,url);
+                                              mWebView.reload();
+                                          }
+
                                           if(curURL.startsWith("https://checkout.shopify.com/")){
                                               if(url.startsWith("https://checkout.shopify.com/")){
                                                   return super.shouldOverrideUrlLoading(view,url);
                                               }
-                                                  else{
+                                              else{
 
                                                   Intent intent1;
                                                   if(url.contains("product/?pcode")) {
@@ -177,5 +201,27 @@ public class PopUpWebview extends AppCompatActivity {
         mWebView.destroy();
         overridePendingTransition(R.anim.anim_hold, R.anim.anim_slide_out_to_right);
     }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_basket, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        Intent intent;
+//
+//        if (id == R.id.shopping_basket) {
+//            intent = new Intent(this, ShoppingCart.class);
+//            intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+//            intent.addFlags(intent.FLAG_ACTIVITY_SINGLE_TOP);
+//            startActivity(intent);
+//            overridePendingTransition(R.anim.anim_slide_in_from_right, R.anim.anim_hold);
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 }

@@ -28,8 +28,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".PopUpWebview"/>
-        <activity android:name=".PopUpWebview_product"/>
+        <activity android:name=".PopUpWebview"
+            android:theme = "@style/AppTheme.NoActionBar"/>
+        <activity android:name=".PopUpWebview_product"
+            android:theme = "@style/AppTheme.NoActionBar"/>
         <activity android:name=".ShoppingCart"/>
     </application>
 

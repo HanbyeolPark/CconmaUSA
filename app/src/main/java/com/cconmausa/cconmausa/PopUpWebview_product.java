@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,10 +35,25 @@ public class PopUpWebview_product extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup_web_view);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.popup_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                mWebView.destroy();
+                overridePendingTransition(R.anim.anim_hold, R.anim.anim_slide_out_to_right);
+            }
+        });
+
         mWebView = (WebView) findViewById(R.id.popup_webview);
         mWebSettings = mWebView.getSettings();
 
-        progress = (ProgressBar) findViewById(R.id.web_progress);
+        progress = (ProgressBar) findViewById(R.id.popup_progress);
         String userAgent2 = mWebSettings.getUserAgentString();
         Log.d("popupwebview2", "popupwebview2");
         Log.d("userAgent2", userAgent2);
