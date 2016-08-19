@@ -72,7 +72,18 @@ public class PopUpWebview_product extends AppCompatActivity {
                                       @Override
                                       public boolean shouldOverrideUrlLoading(WebView view, String url) {
                                           Log.d("현재URL", curURL);
-                                          Log.d("로드될URL",url);
+                                          Log.d("로드될URL", url);
+
+                                          if(url.startsWith("http://www.cconma.com/mobile/index.pmv")){
+                                              Intent clearIntent = new Intent(myApp, MainActivity.class);
+                                              clearIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                              startActivity(clearIntent);
+                                              overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
+                                              Log.d("TEST", "CLEAR INTENT in prod");
+                                              return true;
+                                          }
+
                                           if(curURL.startsWith("https://checkout.shopify.com/")){
                                               if(url.startsWith("https://checkout.shopify.com/")){
                                                   return super.shouldOverrideUrlLoading(view,url);

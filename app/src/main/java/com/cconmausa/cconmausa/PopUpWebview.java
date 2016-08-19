@@ -67,6 +67,16 @@ public class PopUpWebview extends AppCompatActivity {
                                           Log.d("현재URL", curURL);
                                           Log.d("로드될URL",url);
 
+                                          if(url.startsWith("http://www.cconma.com/mobile/index.pmv")){
+                                              Intent clearIntent = new Intent(myApp, MainActivity.class);
+                                              clearIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                                              startActivity(clearIntent);
+                                              overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
+                                              Log.d("TEST", "CLEAR INTENT");
+                                              return true;
+                                          }
+
                                           if(url.equalsIgnoreCase(curURL)){
                                               //return super.shouldOverrideUrlLoading(view,url);
                                               mWebView.reload();

@@ -27,9 +27,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Vector;
+import com.google.android.gcm.GCMRegistrar;
 
-public class MainActivity extends AppCompatActivity
-         {
+public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawer;
     TabLayout tabLayout;
@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         context = this;
        // CLoading.showLoading(context);
         viewPager = (ViewPager) findViewById(R.id.fragment_bottom_tab1_viewpager);
@@ -79,9 +80,9 @@ public class MainActivity extends AppCompatActivity
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         // mWebSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-
         mWebView.loadUrl("http://se.naver.com");
-        final Context myApp = this;
+        registerGcm();
+
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
 
@@ -114,7 +115,6 @@ public class MainActivity extends AppCompatActivity
             // 다이얼로그 보여주기
             alertDialog.show();
         }
-
         new ReadJSONFeed().execute("http://itaxi.handong.edu/init.php");
     }
 
@@ -266,5 +266,21 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void registerGcm() {
+        GCMRegistrar.checkDevice(this);
+        GCMRegistrar.checkManifest(this);
+
+        final String regId = GCMRegistrar.getRegistrationId(this);
+        Log.d("TEST", "GCM registered, id= " + regId);
+
+        if (regId.equals("")) {
+            GCMRegistrar.register(this, "252553880865"); //google project number
+            Log.d("TEST", "GCM registered, id= " + regId);
+
+        } else {
+            Log.d("TEST", "GCM already registered, id= " + regId);
+        }
     }
 }
