@@ -2,10 +2,13 @@ package com.cconmausa.cconmausa;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ProgressBar;
 
-public class Loading {
+/**
+ * Created by ymg on 2016-06-29.
+ */
+public class CLoading {
     private static Dialog m_loadingDialog = null;
 
     public static void showLoading(Context context) {
@@ -15,8 +18,8 @@ public class Loading {
             m_loadingDialog = new Dialog(context, R.style.custom_loading);
             //프로그레스를 생성하자
             ProgressBar pb = new ProgressBar(context);
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LayoutParams params = new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             //프로그래스를 다이얼로그에 포함하자
             m_loadingDialog.setContentView(pb, params);
             m_loadingDialog.setCancelable(false);
@@ -26,8 +29,8 @@ public class Loading {
             m_loadingDialog = null;
             m_loadingDialog = new Dialog(context, R.style.custom_loading);
             ProgressBar pb = new ProgressBar(context);
-            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LayoutParams params = new LayoutParams(
+                    LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             m_loadingDialog.setContentView(pb, params);
             m_loadingDialog.setCancelable(false);
             m_loadingDialog.show();

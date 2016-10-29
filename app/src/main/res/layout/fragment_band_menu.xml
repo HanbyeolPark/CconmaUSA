@@ -8,9 +8,16 @@ android:focusable = "true"
 android:focusableInTouchMode="true"
 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-<WebView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/band_menu_webview"/>
+    <WebView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/band_menu_webview"/>
+
+    <ProgressBar
+        android:id="@+id/web_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

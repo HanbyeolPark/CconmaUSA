@@ -17,11 +17,4 @@ public class Bottom_tab3 extends Fragment {
         return view;
     }
 
-    public class MyWebClient extends WebViewClient {
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
-            Log.d("URL_CATCH", url);
-            return super.shouldOverrideUrlLoading(view, url);
-        }
-    }
 }

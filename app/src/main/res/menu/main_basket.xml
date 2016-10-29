@@ -6,5 +6,5 @@
         android:orderInCategory="100"
         android:title="Shopping Basket"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/shopping_cart" />
+        android:icon="@drawable/cart" />
 </menu>
