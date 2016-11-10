@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.NotificationCompat;
@@ -71,6 +72,9 @@ public class GcmIntentService extends GCMBaseIntentService {
             notificationStyle.setBigContentTitle(title);
             notificationStyle.bigPicture(bigPicture);
 
+            BitmapDrawable drawable = (BitmapDrawable) getResources().getDrawable(R.drawable.push);
+            Bitmap bitmap = drawable.getBitmap();
+
             notification
                     .setAutoCancel(true)
                     .setContentTitle(title)
@@ -80,6 +84,7 @@ public class GcmIntentService extends GCMBaseIntentService {
                     .setContentIntent(pendingIntent)
                     .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
                     .setSmallIcon(R.drawable.push)
+                    .setLargeIcon(bitmap)
                     .build();
 
             nm.notify(1234, notification.build());
