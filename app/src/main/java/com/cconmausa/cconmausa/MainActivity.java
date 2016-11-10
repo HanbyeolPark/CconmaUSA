@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -23,12 +22,16 @@ import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gcm.GCMRegistrar;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Vector;
-import com.google.android.gcm.GCMRegistrar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -86,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
 
         mWebView.loadUrl("http://itaxi.handong.edu/ccon/left_menu.html");
         registerGcm();
+        regist task1 = new regist();
 
+        task1.execute(this);
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
 
@@ -131,6 +136,117 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(pushIntent);
             }
         }
+
+    }
+    public class regist extends AsyncTask<Context , Integer , String>{
+
+
+
+        @Override
+
+        protected String doInBackground(Context... params) {
+
+
+
+            String regId;
+
+            do{
+
+                GCMRegistrar.checkDevice(params[0]);
+
+                GCMRegistrar.checkManifest(params[0]);
+
+
+
+                regId = GCMRegistrar.getRegistrationId(params[0]);
+
+
+
+                if (regId.equals("")) {
+
+                    GCMRegistrar.register(params[0], "252553880865" );
+
+
+
+                } else {
+
+                    Log.e("id", regId);
+
+
+
+                }
+
+            }while(regId =="");
+
+
+
+            return regId;
+
+        }
+
+
+
+        @Override
+
+        protected void onPostExecute(String result) {
+
+            // TODO Auto-generated method stub
+
+            super.onPostExecute(result);
+
+
+
+            registDB task = new registDB();
+
+            task.execute(result);
+
+        }
+
+
+
+    }
+
+    public class  registDB extends AsyncTask<String , Integer , Void>{
+
+
+
+        @Override
+
+        protected Void doInBackground(String... params) {
+
+            // TODO Auto-generated method stub
+
+
+
+            try {
+
+                String u_id = java.net.URLEncoder.encode(new String(params[0].getBytes("UTF-8")));
+
+                URL url = new URL("http://itaxi.handong.edu/android_register.php?u_id="+u_id+"");
+
+                url.openStream();
+
+            } catch (MalformedURLException e) {
+
+                // TODO Auto-generated catch block
+
+                e.printStackTrace();
+
+            } catch (IOException e) {
+
+                // TODO Auto-generated catch block
+
+                e.printStackTrace();
+
+            }
+
+
+
+            return null;
+
+        }
+
+
 
     }
 
