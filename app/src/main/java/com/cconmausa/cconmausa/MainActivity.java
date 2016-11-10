@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             // 다이얼로그 보여주기
             alertDialog.show();
         }
-        new ReadJSONFeed().execute("http://itaxi.handong.edu/init.php");
+        new ReadJSONFeed().execute("http://itaxi.handong.edu/ymg_cap/init.php");
 
         Intent pushIntent = getIntent();
         if(pushIntent != null) {
