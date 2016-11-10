@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     Adapter adapter;
     ViewPager viewPager;
     Context context;
+    //test
    // Intent pushIntent = getIntent();
 
     Bottom_tab1 frag1 = new Bottom_tab1();

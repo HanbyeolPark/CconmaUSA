@@ -50,4 +50,5 @@ dependencies {
     compile files('libs/httpclient-cache-4.2.jar')
     compile files('libs/commons-logging-1.1.1.jar')
     compile files('libs/fluent-hc-4.2.jar')
+    compile files('gcm.jar')
 }

@@ -4,16 +4,44 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <permission
+        android:name="com.cconmausa.cconmausa.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.cconmausa.cconmausa.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/cconma_logo"
         android:label="@string/app_name"
+        android:configChanges="orientation|screenSize"
+        android:windowSoftInputMode="stateAlwaysHidden"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
+        android:theme="@style/Theme.MyTheme">
+
+        <receiver
+            android:name=".GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="com.cconmausa.cconmausa" />
+            </intent-filter>
+        </receiver>
+        <service android:name=".GcmIntentService" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,7 +50,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
-        <activity android:name=".Shopping_basket" />
+        <activity android:name=".PopUpWebview"
+            android:theme = "@style/AppTheme.NoActionBar"/>
+        <activity android:name=".PopUpWebview_product"
+            android:theme = "@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ShoppingCart"/>
     </application>
 
 </manifest>
