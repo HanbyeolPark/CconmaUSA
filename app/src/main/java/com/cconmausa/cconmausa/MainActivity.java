@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -33,20 +34,21 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Vector;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
+    WebViewInterface mWebViewInterface;
     DrawerLayout drawer;
     TabLayout tabLayout;
     Adapter adapter;
     ViewPager viewPager;
     Context context;
     //test
-   // Intent pushIntent = getIntent();
+    // Intent pushIntent = getIntent();
 
-    Bottom_tab1 frag1 = new Bottom_tab1();
-    Bottom_tab2 frag2 = new Bottom_tab2();
-    Bottom_tab3 frag3 = new Bottom_tab3();
-    Bottom_tab4 frag4 = new Bottom_tab4();
+    //Bottom_tab1 frag1 = new Bottom_tab1();
+    //Bottom_tab2 frag2 = new Bottom_tab2();
+    //Bottom_tab3 frag3 = new Bottom_tab3();
+    //Bottom_tab4 frag4 = new Bottom_tab4();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         context = this;
-       // CLoading.showLoading(context);
-        viewPager = (ViewPager) findViewById(R.id.fragment_bottom_tab1_viewpager);
+        // CLoading.showLoading(context);
+        viewPager = (ViewPager) this.findViewById(R.id.fragment_bottom_tab1_viewpager);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
@@ -76,8 +78,16 @@ public class MainActivity extends AppCompatActivity {
         mWebSettings = mWebView.getSettings();
 
         progress = (ProgressBar) findViewById(R.id.web_progress);
+
+       // mWebView.loadUrl("http://itaxi.handong.edu/ccon/left_menu.html");
+        mWebView.loadUrl("http://itaxi.handong.edu/ccon/menu/menu.html");
+        mWebViewInterface = new WebViewInterface(this, mWebView);
+        mWebView.addJavascriptInterface(mWebViewInterface, "ANDROID");
+        Log.d("TEST","MAIN");
+
         String userAgent2 = mWebSettings.getUserAgentString();
         Log.d("userAgent2", userAgent2);
+        //mWebSettings.setBuiltInZoomControls(true);
         //mWebSettings.setBuiltInZoomControls(true);
         //mWebSettings.setSupportZoom(true);
         mWebSettings.setUseWideViewPort(true);
@@ -87,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         // mWebSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
-        mWebView.loadUrl("http://itaxi.handong.edu/ccon/left_menu.html");
+
         registerGcm();
         regist task1 = new regist();
 
@@ -98,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 this);
         Toast.makeText(context, NetworkUtil.getConnectivityStatusString(context), Toast.LENGTH_LONG).show();
-        if(!NetworkUtil.possible){
+        if (!NetworkUtil.possible) {
             alertDialogBuilder
                     .setMessage("네트워크 장애로 인해 앱을 실행할 수 없습니다.")
                     .setCancelable(false)
@@ -127,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         new ReadJSONFeed().execute("http://itaxi.handong.edu/ymg_cap/init.php");
 
         Intent pushIntent = getIntent();
-        if(pushIntent != null) {
+        if (pushIntent != null) {
             String pushUrl = pushIntent.getStringExtra("push_url");
             if (!TextUtils.isEmpty(pushUrl)) { //not null
                 Log.d("MAIN", "pushURL = " + pushUrl);
@@ -137,116 +147,55 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
     }
-    public class regist extends AsyncTask<Context , Integer , String>{
 
-
+    public class regist extends AsyncTask<Context, Integer, String> {
 
         @Override
-
         protected String doInBackground(Context... params) {
-
-
-
             String regId;
-
-            do{
-
+            do {
                 GCMRegistrar.checkDevice(params[0]);
-
                 GCMRegistrar.checkManifest(params[0]);
-
-
-
                 regId = GCMRegistrar.getRegistrationId(params[0]);
-
-
-
                 if (regId.equals("")) {
-
-                    GCMRegistrar.register(params[0], "252553880865" );
-
-
-
+                    GCMRegistrar.register(params[0], "252553880865");
                 } else {
-
                     Log.e("id", regId);
-
-
-
                 }
-
-            }while(regId =="");
-
-
-
+            } while (regId == "");
             return regId;
-
         }
 
-
-
         @Override
-
         protected void onPostExecute(String result) {
 
             // TODO Auto-generated method stub
-
             super.onPostExecute(result);
-
-
-
             registDB task = new registDB();
-
             task.execute(result);
-
         }
-
-
-
     }
 
-    public class  registDB extends AsyncTask<String , Integer , Void>{
-
-
+    public class registDB extends AsyncTask<String, Integer, Void> {
 
         @Override
-
         protected Void doInBackground(String... params) {
-
             // TODO Auto-generated method stub
-
-
-
             try {
-
                 String u_id = java.net.URLEncoder.encode(new String(params[0].getBytes("UTF-8")));
-
-                URL url = new URL("http://itaxi.handong.edu/android_register.php?u_id="+u_id+"");
-
+                URL url = new URL("http://itaxi.handong.edu/android_register.php?u_id=" + u_id + "");
                 url.openStream();
-
             } catch (MalformedURLException e) {
-
                 // TODO Auto-generated catch block
-
                 e.printStackTrace();
-
             } catch (IOException e) {
-
                 // TODO Auto-generated catch block
-
                 e.printStackTrace();
-
             }
-
-
-
             return null;
-
         }
-
-
 
     }
 
@@ -260,8 +209,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    /*@Override
+    /*@SuppressWarnings("StatementWithEmptyBody")
+    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -296,9 +245,12 @@ public class MainActivity extends AppCompatActivity {
     }*/
 
     private class ReadJSONFeed extends AsyncTask<String, String, String> {
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
+
         Vector<String> vector = new Vector<String>(3);
         Vector<String> vector2 = new Vector<String>(3);
+
         @Override
         protected String doInBackground(String... urls) {
             HttpConnection httpConnection = new HttpConnection();
@@ -306,10 +258,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(String result) {
-            String stateInfo="";
+            String stateInfo = "";
             Bundle bundle = new Bundle();
 
-            try{
+            try {
                 JSONObject object = new JSONObject(result);
                 JSONArray countriesArray = new JSONArray(object.getString("band_menu"));
                 tabLayout = (TabLayout) findViewById(R.id.fragment_bottom_tab1_tabs);
@@ -317,10 +269,10 @@ public class MainActivity extends AppCompatActivity {
                 Vector<Band_menu> bandmenuvector = new Vector<Band_menu>(5);
                 adapter = new Adapter(getSupportFragmentManager());
 
-                for (int i =0; i<countriesArray.length();i++) {
+                for (int i = 0; i < countriesArray.length(); i++) {
                     JSONObject jObject = countriesArray.getJSONObject(i);
-                    stateInfo += "Title: "+jObject.getString("title")+"\n";
-                    stateInfo += "Url: "+jObject.getString("url")+"\n";
+                    stateInfo += "Title: " + jObject.getString("title") + "\n";
+                    stateInfo += "Url: " + jObject.getString("url") + "\n";
 
                     vector.addElement(jObject.getString("title"));
                     vector2.addElement(jObject.getString("url"));
@@ -348,10 +300,9 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setOffscreenPageLimit(6);
                 tabLayout.setupWithViewPager(viewPager);
 
-               // push();
+                // push();
 
-            }
-            catch (JSONException e) {
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
@@ -363,15 +314,14 @@ public class MainActivity extends AppCompatActivity {
             //make Fragments as number of categories
 
 
-
             Vector<Band_menu> band_menus = new Vector<Band_menu>(10);
 
             String[] title = new String[vector.size()];
-            title = (String[])vector.toArray(title);
+            title = (String[]) vector.toArray(title);
             String[] url = new String[vector2.size()];
-            url = (String[])vector2.toArray(url);
+            url = (String[]) vector2.toArray(url);
 
-            for(int i=0; i<url.length;i++){
+            for (int i = 0; i < url.length; i++) {
                 Bundle bundle = new Bundle();
                 bundle.putString("url", url[i]);
                 band_menus.addElement(new Band_menu());

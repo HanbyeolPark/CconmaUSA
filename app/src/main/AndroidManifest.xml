@@ -17,7 +17,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/cconma_logo"
+        android:icon="@drawable/push"
         android:label="@string/app_name"
         android:configChanges="orientation|screenSize"
         android:windowSoftInputMode="stateAlwaysHidden"
@@ -49,12 +49,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".LoginActivity"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
         <activity android:name=".PopUpWebview"
             android:theme = "@style/AppTheme.NoActionBar"/>
         <activity android:name=".PopUpWebview_product"
             android:theme = "@style/AppTheme.NoActionBar"/>
         <activity android:name=".ShoppingCart"/>
+        <activity android:name=".Login"/>
     </application>
 
 </manifest>
