@@ -36,6 +36,8 @@ import java.util.Vector;
 
 public class MainActivity extends AppCompatActivity {
 
+    WebViewInterface mWebViewInterface;
+
     DrawerLayout drawer;
     TabLayout tabLayout;
     Adapter adapter;
@@ -44,10 +46,10 @@ public class MainActivity extends AppCompatActivity {
     //test
    // Intent pushIntent = getIntent();
 
-    Bottom_tab1 frag1 = new Bottom_tab1();
-    Bottom_tab2 frag2 = new Bottom_tab2();
-    Bottom_tab3 frag3 = new Bottom_tab3();
-    Bottom_tab4 frag4 = new Bottom_tab4();
+//    Bottom_tab1 frag1 = new Bottom_tab1();
+//    Bottom_tab2 frag2 = new Bottom_tab2();
+//    Bottom_tab3 frag3 = new Bottom_tab3();
+//    Bottom_tab4 frag4 = new Bottom_tab4();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +72,6 @@ public class MainActivity extends AppCompatActivity {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
-
-
         WebView mWebView;
         WebSettings mWebSettings;
         ProgressBar progress;
@@ -80,6 +79,11 @@ public class MainActivity extends AppCompatActivity {
         mWebSettings = mWebView.getSettings();
 
         progress = (ProgressBar) findViewById(R.id.web_progress);
+
+        mWebView.loadUrl("http://itaxi.handong.edu/ccon/menu/menu.html");
+        mWebViewInterface = new WebViewInterface(this, mWebView);
+        mWebView.addJavascriptInterface(mWebViewInterface, "ANDROID");
+
         String userAgent2 = mWebSettings.getUserAgentString();
         Log.d("userAgent2", userAgent2);
         //mWebSettings.setBuiltInZoomControls(true);
@@ -92,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         // mWebSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
 
 
-        mWebView.loadUrl("http://itaxi.handong.edu/ccon/left_menu.html");
         registerGcm();
         regist task1 = new regist();
 
@@ -141,121 +144,50 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(pushIntent);
             }
         }
-
-
-
-
     }
+
     public class regist extends AsyncTask<Context , Integer , String>{
-
-
-
         @Override
-
         protected String doInBackground(Context... params) {
-
-
-
             String regId;
-
             do{
-
                 GCMRegistrar.checkDevice(params[0]);
-
                 GCMRegistrar.checkManifest(params[0]);
-
-
-
                 regId = GCMRegistrar.getRegistrationId(params[0]);
-
-
-
                 if (regId.equals("")) {
-
                     GCMRegistrar.register(params[0], "252553880865" );
-
-
-
                 } else {
-
                     Log.e("id", regId);
-
-
-
                 }
-
             }while(regId =="");
-
-
-
             return regId;
-
         }
-
-
-
         @Override
-
         protected void onPostExecute(String result) {
-
             // TODO Auto-generated method stub
-
             super.onPostExecute(result);
-
-
-
             registDB task = new registDB();
-
             task.execute(result);
-
         }
-
-
-
     }
 
     public class  registDB extends AsyncTask<String , Integer , Void>{
-
-
-
         @Override
-
         protected Void doInBackground(String... params) {
-
             // TODO Auto-generated method stub
-
-
-
             try {
-
                 String u_id = java.net.URLEncoder.encode(new String(params[0].getBytes("UTF-8")));
-
                 URL url = new URL("http://itaxi.handong.edu/android_register.php?u_id="+u_id+"");
-
                 url.openStream();
-
             } catch (MalformedURLException e) {
-
                 // TODO Auto-generated catch block
-
                 e.printStackTrace();
-
             } catch (IOException e) {
-
                 // TODO Auto-generated catch block
-
                 e.printStackTrace();
-
             }
-
-
-
             return null;
-
         }
-
-
-
     }
 
     @Override
