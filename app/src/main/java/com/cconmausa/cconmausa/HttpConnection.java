@@ -108,6 +108,24 @@ public class HttpConnection  {
         }catch(Exception e){}
     }
 
+    public  void setLogin2(){
+        try {
+
+            this.dest_url="https://cconmausa.myshopify.com/";
+            this.url = "https://cconmausa.myshopify.com/password";
+
+            ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            nameValuePairs.add(new BasicNameValuePair("password", "cconma16"));
+            HttpParams params = http.getParams();
+            HttpConnectionParams.setConnectionTimeout(params, 5000);
+            HttpConnectionParams.setSoTimeout(params, 5000);
+            HttpPost httpPost = new HttpPost(url);
+            UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(nameValuePairs, "UTF-8");
+            httpPost.setEntity(entityRequest);
+            http.execute(httpPost,responseHandler);
+        }catch(Exception e){}
+    }
+
 }
 
 

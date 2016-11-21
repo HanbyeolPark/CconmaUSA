@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -69,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
+
+
         WebView mWebView;
         WebSettings mWebSettings;
         ProgressBar progress;
@@ -86,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         mWebSettings.setJavaScriptEnabled(true);
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         // mWebSettings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+
 
         mWebView.loadUrl("http://itaxi.handong.edu/ccon/left_menu.html");
         registerGcm();
@@ -136,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(pushIntent);
             }
         }
+
+
+
 
     }
     public class regist extends AsyncTask<Context , Integer , String>{
@@ -302,10 +310,31 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... urls) {
             HttpConnection httpConnection = new HttpConnection();
+
+            httpConnection = new HttpConnection();
+
+            httpConnection.setLogin2();
+
+            CookieSyncManager.getInstance().sync();
+            try {
+                Thread.sleep(500);  //동기화 하는데 약간의 시간을 필요로 한다.
+            } catch (InterruptedException e) {   }
+
             return httpConnection.getContent(urls[0]);
+
+
         }
 
         protected void onPostExecute(String result) {
+
+           /* CookieManager.getInstance().setCookie("https://cconmausa.myshopify.com/", "_secure_session_id=7b9e24f8b3c199ddb9a84cc992048098");
+            CookieManager.getInstance().setCookie("https://cconmausa.myshopify.com/", "storefront_digest=0985de8e2682b9df2a9c4cb8f55f83d0685eeb6737b959340fc8883a9feab1f4");
+            CookieManager.getInstance().setCookie("https://cconmausa.myshopify.com/", "_landing_page=%2F");
+            CookieManager.getInstance().setCookie("https://cconmausa.myshopify.com/", "secure_customer_sig=");
+            CookieManager.getInstance().setCookie("https://cconmausa.myshopify.com/", "_orig_referrer=");
+            CookieManager.getInstance().setCookie("https://cconmausa.myshopify.com/", "cart_sig=");*/
+
+
             String stateInfo="";
             Bundle bundle = new Bundle();
 
@@ -345,7 +374,7 @@ public class MainActivity extends AppCompatActivity {
 
                 viewPager.setAdapter(adapter);
                 setupViewPager(viewPager);
-                viewPager.setOffscreenPageLimit(6);
+                viewPager.setOffscreenPageLimit(8);
                 tabLayout.setupWithViewPager(viewPager);
 
                // push();
