@@ -38,43 +38,43 @@ public class WebViewInterface {
             }
             case "CCONMA":{
                 intent = new Intent(mContext, PopUpWebview.class);
-                intent.putExtra("url", "https://cconmausa.myshopify.com/");
+                intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=cconma#_app");
                 mContext.startActivity(intent);
                 break;
             }
             case "FOOD":{
                 intent = new Intent(mContext, PopUpWebview.class);
-                intent.putExtra("url", "https://cconmausa.myshopify.com/");
+                intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=food#_app");
                 mContext.startActivity(intent);
                 break;
             }
             case "KITCHEN":{
                 intent = new Intent(mContext, PopUpWebview.class);
-                intent.putExtra("url", "https://cconmausa.myshopify.com/");
+                intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=kitchen#_app");
                 mContext.startActivity(intent);
                 break;
             }
             case "BEAUTY":{
                 intent = new Intent(mContext, PopUpWebview.class);
-                intent.putExtra("url", "https://cconmausa.myshopify.com/");
+                intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=beauty#_app");
                 mContext.startActivity(intent);
                 break;
             }
             case "LIFE":{
                 intent = new Intent(mContext, PopUpWebview.class);
-                intent.putExtra("url", "https://cconmausa.myshopify.com/");
+                intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=living#_app");
                 mContext.startActivity(intent);
                 break;
             }
             case "CULTURE":{
                 intent = new Intent(mContext, PopUpWebview.class);
-                intent.putExtra("url", "https://cconmausa.myshopify.com/");
+                intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=culture#_app");
                 mContext.startActivity(intent);
                 break;
             }
             case "SERVICE_CENTER":{
                 intent = new Intent(mContext, PopUpWebview.class);
-                intent.putExtra("url", "https://cconmausa.myshopify.com/");
+                intent.putExtra("url", "https://cconmausa.myshopify.com/pages/center#_app");
                 mContext.startActivity(intent);
                 break;
             }

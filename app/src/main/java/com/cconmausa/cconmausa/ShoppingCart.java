@@ -20,7 +20,7 @@ public class ShoppingCart extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.shopping_cart);
-        final String curURL = "https://cconmausa.myshopify.com/cart";
+        final String curURL = "https://cconmausa.myshopify.com/cart#_app";
 
         mWebView = (WebView)findViewById(R.id.cart_webview);
         mWebView.getSettings().setJavaScriptEnabled(true);
