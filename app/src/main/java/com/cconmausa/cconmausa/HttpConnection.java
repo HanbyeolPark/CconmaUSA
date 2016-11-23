@@ -1,5 +1,6 @@
 package com.cconmausa.cconmausa;
 
+import android.util.Log;
 import android.webkit.CookieManager;
 
 import org.apache.http.HttpEntity;
@@ -83,8 +84,8 @@ public class HttpConnection  {
             if (!cookies.isEmpty()) {
                 for (int i = 0; i < cookies.size(); i++) {
                     String cookieString = cookies.get(i).getName() + "=" + cookies.get(i).getValue();
-                    cookieManager.setCookie(dest_url, cookieString);
-
+                    CookieManager.getInstance().setCookie(dest_url, cookieString);
+                    Log.d("쿠키값", CookieManager.getInstance().getCookie(dest_url));
                 }
             }
 
@@ -95,16 +96,20 @@ public class HttpConnection  {
     };
     public  void setLogin(){
         try {
+            this.dest_url="https://cconmausa.myshopify.com/";
+            this.url = "https://cconmausa.myshopify.com/account/login";
+
             ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            nameValuePairs.add(new BasicNameValuePair("id", name));
-            nameValuePairs.add(new BasicNameValuePair("passwd", pass));
+            Log.d(name, pass);
+            nameValuePairs.add(new BasicNameValuePair("customer[email]", name));
+            nameValuePairs.add(new BasicNameValuePair("customer[password]", pass));
             HttpParams params = http.getParams();
             HttpConnectionParams.setConnectionTimeout(params, 5000);
             HttpConnectionParams.setSoTimeout(params, 5000);
             HttpPost httpPost = new HttpPost(url);
             UrlEncodedFormEntity entityRequest = new UrlEncodedFormEntity(nameValuePairs, "UTF-8");
             httpPost.setEntity(entityRequest);
-            http.execute(httpPost,responseHandler);
+            http.execute(httpPost, responseHandler);
         }catch(Exception e){}
     }
 

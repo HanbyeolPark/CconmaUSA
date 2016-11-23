@@ -17,6 +17,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -246,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
             httpConnection = new HttpConnection();
 
             httpConnection.setLogin2();
-
+            Log.d("쿠키값main", CookieManager.getInstance().getCookie("https://cconmausa.myshopify.com/"));
             CookieSyncManager.getInstance().sync();
             try {
                 Thread.sleep(500);  //동기화 하는데 약간의 시간을 필요로 한다.
