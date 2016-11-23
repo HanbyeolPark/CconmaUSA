@@ -33,6 +33,7 @@ public class WebViewInterface {
                 Log.d("TEST", "before");
                 intent = new Intent(mContext, Login.class);
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 Log.d("TEST", "after");
                 break;
             }
@@ -40,48 +41,56 @@ public class WebViewInterface {
                 intent = new Intent(mContext, PopUpWebview.class);
                 intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=cconma#_app");
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 break;
             }
             case "FOOD":{
                 intent = new Intent(mContext, PopUpWebview.class);
                 intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=food#_app");
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 break;
             }
             case "KITCHEN":{
                 intent = new Intent(mContext, PopUpWebview.class);
                 intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=kitchen#_app");
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 break;
             }
             case "BEAUTY":{
                 intent = new Intent(mContext, PopUpWebview.class);
                 intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=beauty#_app");
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 break;
             }
             case "LIFE":{
                 intent = new Intent(mContext, PopUpWebview.class);
                 intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=living#_app");
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 break;
             }
             case "CULTURE":{
                 intent = new Intent(mContext, PopUpWebview.class);
                 intent.putExtra("url", "https://cconmausa.myshopify.com/collections/all?view=culture#_app");
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 break;
             }
             case "SERVICE_CENTER":{
                 intent = new Intent(mContext, PopUpWebview.class);
                 intent.putExtra("url", "https://cconmausa.myshopify.com/pages/center#_app");
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 break;
             }
             case "CCONMA_KOREA":{
                 intent = new Intent(mContext, PopUpWebview.class);
                 intent.putExtra("url", "http://www.cconma.com/mobile/");
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 break;
             }
             case "GODOWON":{
@@ -92,6 +101,7 @@ public class WebViewInterface {
                     intent.setData(Uri.parse("market://details?id=" + uri));
                 }
                 mContext.startActivity(intent);
+                mContext.overridePendingTransition(R.anim.anim_slide_in_from_left, R.anim.anim_slide_out_to_right);
                 break;
             }
 
