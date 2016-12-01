@@ -1,13 +1,13 @@
 package com.cconmausa.cconmausa;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -186,6 +186,65 @@ public class PopUpWebview extends AppCompatActivity {
                                                   Toast.makeText(myApp, "ERROR_UNSUPPORTED_SCHEME", Toast.LENGTH_LONG).show();
                                                   break;
                                           }
+                                          switch (errorCode) {
+                                              case ERROR_AUTHENTICATION:               // 서버에서 사용자 인증 실패
+
+
+                                              case ERROR_BAD_URL:                            // 잘못된 URL
+
+                                              case ERROR_CONNECT:                           // 서버로 연결 실패
+
+                                              case ERROR_FAILED_SSL_HANDSHAKE:     // SSL handshake 수행 실패
+
+                                              case ERROR_FILE:                                   // 일반 파일 오류
+
+                                              case ERROR_FILE_NOT_FOUND:                // 파일을 찾을 수 없습니다
+
+                                              case ERROR_HOST_LOOKUP:            // 서버 또는 프록시 호스트 이름 조회 실패
+
+                                              case ERROR_IO:                               // 서버에서 읽거나 서버로 쓰기 실패
+
+                                              case ERROR_PROXY_AUTHENTICATION:    // 프록시에서 사용자 인증 실패
+
+                                              case ERROR_REDIRECT_LOOP:                // 너무 많은 리디렉션
+
+                                              case ERROR_TIMEOUT:                          // 연결 시간 초과
+
+                                              case ERROR_TOO_MANY_REQUESTS:            // 페이지 로드중 너무 많은 요청 발생
+
+                                              case ERROR_UNKNOWN:                         // 일반 오류
+
+                                              case ERROR_UNSUPPORTED_AUTH_SCHEME:  // 지원되지 않는 인증 체계
+
+                                              case ERROR_UNSUPPORTED_SCHEME:
+                                                  default:final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(myApp);
+                                                      alertDialogBuilder
+                                                              .setMessage("네트워크 장애로 인해 앱을 실행할 수 없습니다.")
+                                                              .setCancelable(false)
+                                                              .setPositiveButton("다시시도",
+                                                                      new DialogInterface.OnClickListener() {
+                                                                          public void onClick(
+                                                                                  DialogInterface dialog, int id) {
+                                                                              // 프로그램을 종료한다
+                                                                              dialog.cancel();
+                                                                              recreate();
+                                                                          }
+                                                                      })
+                                                              .setNegativeButton("종료",
+                                                                      new DialogInterface.OnClickListener() {
+                                                                          public void onClick(
+                                                                                  DialogInterface dialog, int id) {
+                                                                              // 다이얼로그를 취소한다
+                                                                              dialog.cancel();
+                                                                              finish();
+                                                                          }
+                                                                      });
+                                                      AlertDialog alertDialog = alertDialogBuilder.create();
+                                                      // 다이얼로그 보여주기
+                                                      alertDialog.show();
+                                          }
+
+
                                           Log.d("LOG", "11stop loading");
                                           mWebView.stopLoading();
                                           setContentView(R.layout.view_no_page);

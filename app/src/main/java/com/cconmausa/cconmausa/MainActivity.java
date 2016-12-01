@@ -104,8 +104,7 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 //        navigationView.setNavigationItemSelectedListener(this);
 
-        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         Toast.makeText(context, NetworkUtil.getConnectivityStatusString(context), Toast.LENGTH_LONG).show();
         if(!NetworkUtil.possible){
             alertDialogBuilder
@@ -246,6 +245,8 @@ public class MainActivity extends AppCompatActivity {
 
             httpConnection = new HttpConnection();
 
+
+            httpConnection.setLogin3();
             httpConnection.setLogin2();
             Log.d("쿠키값main", CookieManager.getInstance().getCookie("https://cconmausa.myshopify.com/"));
             CookieSyncManager.getInstance().sync();
